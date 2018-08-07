@@ -1,5 +1,5 @@
 {
-    "name": "ondram/ci-detector",
+    "name": "mcampbell508/ci-detector",
     "description": "Detect current continuous integration server and provide unified access to properties of current build",
     "keywords": [
         "continuous integration",
