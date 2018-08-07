@@ -29,16 +29,33 @@ class GitLab extends AbstractCi
 
     public function getGitCommit(): string
     {
-        return $this->env->getString('CI_BUILD_REF');
+        $serverVersion = $this->getServerVersion();
+
+        $env = (version_compare($serverVersion, '9.0.0') >= 0) ? "CI_COMMIT_SHA" : "CI_BUILD_REF";
+
+        return $this->env->getString($env);
     }
 
     public function getGitBranch(): string
     {
-        return $this->env->getString('CI_BUILD_REF_NAME');
+        $serverVersion = $this->getServerVersion();
+
+        $env = (version_compare($serverVersion, '9.0.0') >= 0) ? "CI_COMMIT_REF_NAME" : "CI_BUILD_REF_NAME";
+
+        return $this->env->getString($env);
     }
 
     public function getRepositoryUrl(): string
     {
-        return $this->env->getString('CI_BUILD_REPO');
+        $serverVersion = $this->getServerVersion();
+
+        $env = (version_compare($serverVersion, '9.0.0') >= 0) ? "CI_REPOSITORY_URL" : "CI_BUILD_REPO";
+
+        return $this->env->getString($env);
+    }
+
+    public function getServerVersion(): string
+    {
+        return str_replace(["-ee", "-ce"], '', $this->env->getString("CI_SERVER_VERSION"));
     }
 }
